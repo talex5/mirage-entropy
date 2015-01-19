@@ -70,7 +70,7 @@ let connect () =
   >>|= fun () ->
   Console_xen.read device
   >>|= fun buffer ->
-  let string = Cstruct.to_string buffer in
+  let string = Cstruct.sub buffer 0 (String.length handshake_response) |> Cstruct.to_string in
   if string <> handshake_response then begin
     Printf.printf "Entropy_xen: received [%s](%d bytes) instead of expected handshake message"
       (String.escaped string) (String.length string);
